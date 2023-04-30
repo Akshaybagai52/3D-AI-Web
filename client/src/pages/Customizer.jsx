@@ -4,7 +4,7 @@ import { useSnapshot } from 'valtio';
 // import { Config } from 'tailwindcss';
 import state from '../store';
 // import { download } from '../assets';
-// import { downloadCanvasToImage, reader } from '../config/helpers';
+import { downloadCanvasToImage, reader } from '../config/helpers';
 import { EditorTabs, FilterTabs, DecalTypes} from '../config/constants';
 import { fadeAnimation, slideAnimation } from '../config/motion';
 import { AiPicker, ColorPicker, CustomButton, FilePicker, Tab } from '../components';
@@ -54,6 +54,12 @@ const Customizer = () => {
             state.isLogoTexture = false;
             break;
     }
+    setActiveFilterTab((prevState) => {
+      return {
+        ...prevState,
+        [tabName]: !prevState[tabName]
+      }
+    })
   }
   const readFile = (type) => {
     reader(file)
@@ -101,8 +107,8 @@ const Customizer = () => {
                 <Tab key={tab.name}
                      tab={tab}
                      isFilterTab
-                     isActiveTab=""
-                     handleClick={() => {}} />
+                     isActiveTab={activeEditorTab[tab.name]}
+                     handleClick={() => handleActiveFilterTab(tab.name)} />
               ))}
 
 
